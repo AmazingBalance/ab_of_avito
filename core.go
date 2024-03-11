@@ -23,13 +23,13 @@ func illegal(w http.ResponseWriter) {
 }
 
 func Welcome(w http.ResponseWriter, _ *http.Request) {
+	// For communication
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+
 	fmt.Fprintf(w, "Hello there sysadmin.")
 }
-
-	// For communication
-	// w.Header().Set("Access-Control-Allow-Origin", "*")
-	// w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-	// w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 
 func main() {
 	Router()

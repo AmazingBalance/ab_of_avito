@@ -1,66 +1,63 @@
 console.log("Hello there. My name is JS.")
 
-var b1 = -1
-var b2 = -1
+// arrLen -> Amount of buttons available to testing
+const arrLen = 5
+var numba = Array(arrLen).fill().map((_) => -1)
 
 const rootURI = "http://localhost:6969"
 
 function Reset() {
-
     const roots = document.getElementsByClassName("root")
     var i = 0
     while (i < roots.length) {
         roots[i].innerHTML = ""
-
         i++
     }
 
-    b1 = -1
-    b2 = -1
+    numba = numba.map((_) => -1)
 }
 
 function Btn1() {
     const el = document.getElementById("fbtn1")
     const nw = document.createElement("p")
 
-    if (b1 % 5 == 4) {
+    if (numba[0] % 5 == 4) {
         el.innerHTML = ''
     }
+    numba[0]++
 
-    b1 += 1
-
-    nw.innerText = `Hello there. I am no.${b1}!`
+    nw.innerText = `Hello there. I am no.${numba[0]}!`
 
     el.appendChild(nw)
+
 }
 
-function Broot() {
-    const el = document.getElementById("fbroot")
+function Btn2() {
+    const el = document.getElementById("fbtn2")
     const ne = document.createElement("p")
 
-    if (b2 % 5 == 4) {
-        el.innerHTML = ""
+    if (numba[1] % 5 == 4) {
+        el.innerHTML = ''
     }
+    numba[1]++
 
-    fetch(rootURI + "/api/edit").then((response) => {
-        if (!response.ok) {
-            const err = `HTTP error: ${response.status}`
+    fetch(rootURI).then((resp) => {
+        if (!resp.ok) {
+            const err = `HTTP error: ${resp.status}`
             ne.innerText = err
             el.appendChild(ne)
             throw new Error(err)
         }
-        return response.text
-    }).then((text) => {
-        console.log(`Got: ${text}`)
+        return resp.text()
+    }).then((txt) => {
+        console.log(`Got: ${txt}`)
 
-        ne.innerText = text
+        ne.innerText = txt
         el.appendChild(ne)
-    }).catch((response) => {
-        console.log(response)
+    }).catch((r) => {
+        console.log(r)
 
-        ne.innerText = response
+        ne.innerText = r
         el.appendChild(ne)
     })
-
-    b2++
 }

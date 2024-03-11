@@ -1,6 +1,6 @@
 console.log("Hello there. My name is JS.")
 
-var a = -1
+var b1 = -1
 
 function Reset() {
     for (i = 1; i < 10; i++) {
@@ -8,6 +8,7 @@ function Reset() {
         if (el != null) {
             console.log(`Deleted inner stuff in div#${el.id}`)
             el.innerHTML = ""
+            b1 = 0
         }
     }
 }
@@ -16,13 +17,13 @@ function Btn1() {
     const el = document.getElementById("fbtn1")
     const nw = document.createElement("p")
 
-    if (a % 5 == 4) {
+    if (b1 % 5 == 4) {
         el.innerHTML = ''
     }
 
-    a += 1
+    b1 += 1
 
-    nw.innerText = `Hello there. I am no.${a}!`
+    nw.innerText = `Hello there. I am no.${b1}!`
 
     el.appendChild(nw)
 }

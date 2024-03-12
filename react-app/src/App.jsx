@@ -1,29 +1,28 @@
 import logo from "./images/logo48.png";
 import "./App.css";
+import React, { useEffect, useState } from "react";
+import ActiveMatrixItem from "./components/ActiveMatrixItem/ActiveMatrixItem";
 
 function App() {
     var ActiveMatrixList = [];
+    const [activeIndex, setActiveIndex] = useState(-1);
 
     function AddActiveMatrix(name) {
-        let workZoneHeader =
-            document.body.querySelector(".ActiveMatrixList") || null;
-        workZoneHeader.innerHTML += `<li class="ActiveMatrixList_Item">
-        <div>
-            <p>baseline_matrix_1.sql</p>
-        </div>
-        <div>
-            <span>✕</span>
-        </div>
-    </li>`;
-        let el = document.body.querySelector(".workZoneHeader:last-child");
-        el.addEventListener("click", () => {
-            s;
-        });
+        ActiveMatrixList.push({ name: name, index: ActiveMatrixList.length });
+        if (activeIndex == -1) {
+            setActiveIndex(0);
+        }
     }
 
-    function ActiveMatrixController(e) {
-        console.log(this);
+    function handleClick(ind) {
+        console.log(ind);
+        setActiveIndex(ind);
     }
+
+    //useEffect(() => {}, []);
+
+    AddActiveMatrix("baseline_matrix_1.sql");
+    AddActiveMatrix("baseline_matrix_2.sql");
 
     return (
         <div className="App">
@@ -68,42 +67,14 @@ function App() {
                 <div className="WorkZone">
                     <header className="WorkZoneHeader">
                         <ul className="ActiveMatrixList">
-                            <li className="ActiveMatrixList_Item">
-                                <div
-                                    onClick={() =>
-                                        this.ActiveMatrixController()
-                                    }
-                                >
-                                    <p>baseline_matrix_1.sql</p>
-                                </div>
-                                <div>
-                                    <span>✕</span>
-                                </div>
-                            </li>
-                            <li className="ActiveMatrixList_Item ActiveMatrixList_Item__Active">
-                                <div onClick={ActiveMatrixController}>
-                                    <p>baseline_matrix_2.sql</p>
-                                </div>
-                                <div>
-                                    <span>✕</span>
-                                </div>
-                            </li>
-                            <li className="ActiveMatrixList_Item">
-                                <div onClick={ActiveMatrixController}>
-                                    <p>baseline_matrix_3.sql</p>
-                                </div>
-                                <div>
-                                    <span>✕</span>
-                                </div>
-                            </li>
-                            <li className="ActiveMatrixList_Item">
-                                <div onClick={ActiveMatrixController}>
-                                    <p>baseline_matrix_4.sql</p>
-                                </div>
-                                <div>
-                                    <span>✕</span>
-                                </div>
-                            </li>
+                            {ActiveMatrixList.map((elem) => (
+                                <ActiveMatrixItem
+                                    name={elem.name}
+                                    index={elem.index}
+                                    key={elem.index}
+                                    onClick={() => handleClick(elem.index)}
+                                />
+                            ))}
                         </ul>
                     </header>
                 </div>

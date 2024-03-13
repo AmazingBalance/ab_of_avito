@@ -3,23 +3,54 @@ import "./App.css";
 import React, { useEffect, useState, useReducer } from "react";
 import { v4 as uuidv4 } from "uuid";
 
+import Button from "./components/button/Button";
+import WorkZone from "./components/workzone/WorkZone";
 
 function App() {
-    const [, forceUpdate] = useReducer(x => x + 1, 0);
+    const [, forceUpdate] = useReducer((x) => x + 1, 0);
     //Opened Matrix States
     const [openedMatrixList, setOpenedMatrixList] = useState([
-        { name: "baseline_matrix_1.sql", id: uuidv4(), type: "baseline", active: false },
-        { name: "baseline_matrix_2.sql", id: uuidv4(), type: "baseline", active: false },
-        { name: "baseline_matrix_3.sql", id: uuidv4(), type: "baseline", active: false },
-        { name: "discount_matrix_1.sql", id: uuidv4(), type: "discount", active: false },
-        { name: "discount_matrix_2.sql", id: uuidv4(), type: "discount", active: false },
-        { name: "discount_matrix_3.sql", id: uuidv4(), type: "discount", active: false },
+        {
+            name: "baseline_matrix_1.sql",
+            id: uuidv4(),
+            type: "baseline",
+            active: false,
+        },
+        {
+            name: "baseline_matrix_2.sql",
+            id: uuidv4(),
+            type: "baseline",
+            active: false,
+        },
+        {
+            name: "baseline_matrix_3.sql",
+            id: uuidv4(),
+            type: "baseline",
+            active: false,
+        },
+        {
+            name: "discount_matrix_1.sql",
+            id: uuidv4(),
+            type: "discount",
+            active: false,
+        },
+        {
+            name: "discount_matrix_2.sql",
+            id: uuidv4(),
+            type: "discount",
+            active: false,
+        },
+        {
+            name: "discount_matrix_3.sql",
+            id: uuidv4(),
+            type: "discount",
+            active: false,
+        },
     ]);
 
     //Active Matrix States
     const [activeIndex, setActiveIndex] = useState(-1);
     const [activeMatrixList, setActiveMatrixList] = useState([]);
-    var changeActive = () => { };
 
     //Active Matrix Functions
     function AddActiveMatrix(name, id) {
@@ -36,7 +67,7 @@ function App() {
 
     function HandleActiveDeleteClick(ind) {
         for (let i = 0; i < openedMatrixList.length; i++) {
-            console.log(openedMatrixList[i], ind)
+            console.log(openedMatrixList[i], ind);
             if (openedMatrixList[i].id === ind) {
                 openedMatrixList[i].active = false;
                 break;
@@ -47,7 +78,7 @@ function App() {
             setActiveMatrixList([]);
         } else {
             if (activeMatrixList[0].id === ind) {
-                setActiveIndex(activeMatrixList[1].id)
+                setActiveIndex(activeMatrixList[1].id);
                 activeMatrixList.splice(0, 1);
             } else {
                 let t = -1;
@@ -61,7 +92,7 @@ function App() {
                 setActiveIndex(t);
             }
         }
-        forceUpdate()
+        forceUpdate();
     }
     //Opened Matrix Functions
 
@@ -72,35 +103,124 @@ function App() {
         }
     }
 
+    function HandleOpenedDeleteClick(ind) {
+        for (let i = 0; i < openedMatrixList.length; i++) {
+            if (openedMatrixList[i].id === ind) {
+                openedMatrixList.splice(i, 1);
+                break;
+            }
+        }
+        for (let i = 0; i < activeMatrixList.length; i++) {
+            if (activeMatrixList[i].id === ind) {
+                activeMatrixList.splice(i, 1);
+                break;
+            }
+        }
+        forceUpdate();
+    }
+
     return (
         <div className="App">
             <header className="App-header">
-                <img
-                    src={logo}
-                    className="App-logo"
-                    alt="logo"
-                    width="48"
-                    height="48"
-                />
-                <h1 className="App-title">Amazing Balance</h1>
+                <div className="App-header-LogoContainer">
+                    <img
+                        src={logo}
+                        className="App-logo"
+                        alt="logo"
+                        width="48"
+                        height="48"
+                    />
+                    <h1 className="App-title">Amazing Balance</h1>
+                </div>
+                <div className="ToolsContainer">
+                    <Button
+                        text="Открыть"
+                        color="white"
+                        borderColor=""
+                        backgroundColor="#00AAFF"
+                        onc={() => {}}
+                    />
+                    <Button
+                        text="Создать"
+                        color="white"
+                        borderColor=""
+                        backgroundColor="#00AAFF"
+                        onc={() => {}}
+                    />
+                    <Button
+                        text="Storage"
+                        color="white"
+                        borderColor=""
+                        backgroundColor="#965EEB"
+                        onc={() => {}}
+                    />
+                </div>
             </header>
             <main className="App-main">
                 <div className="OpenedMatrix">
                     <h2 className="OpenedMatrixTitle">Основные матрицы</h2>
                     <ul className="OpenedMatrixListMain">
-                        {openedMatrixList.map((elem) => elem.type === "baseline" ?
-                            <li className="OpenedMatrixList_Item" key={elem.id.toString()} onClick={() => ActivateOpenedMatrix(elem.name, elem.id, openedMatrixList.indexOf(elem))}>
-                                <p>{elem.name}</p>
-                            </li> : <></>
+                        {openedMatrixList.map((elem) =>
+                            elem.type === "baseline" ? (
+                                <div className="OpenedMatrixList_ItemContainer">
+                                    <li
+                                        className="OpenedMatrixList_Item"
+                                        key={elem.id.toString()}
+                                        onClick={() =>
+                                            ActivateOpenedMatrix(
+                                                elem.name,
+                                                elem.id,
+                                                openedMatrixList.indexOf(elem)
+                                            )
+                                        }
+                                    >
+                                        <p>{elem.name}</p>
+                                    </li>
+                                    <div
+                                        className="OpenedMatrixList_Item_CloseButton"
+                                        onClick={() =>
+                                            HandleOpenedDeleteClick(elem.id)
+                                        }
+                                    >
+                                        <span>✕</span>
+                                    </div>
+                                </div>
+                            ) : (
+                                <></>
+                            )
                         )}
                     </ul>
 
                     <h2 className="OpenedMatrixTitle">Скидочные матрицы</h2>
                     <ul className="OpenedMatrixListSpecial">
-                        {openedMatrixList.map((elem) => elem.type === "discount" ?
-                            <li className="OpenedMatrixList_Item" key={elem.id.toString()} onClick={() => ActivateOpenedMatrix(elem.name, elem.id, openedMatrixList.indexOf(elem))}>
-                                <p>{elem.name}</p>
-                            </li> : <></>
+                        {openedMatrixList.map((elem) =>
+                            elem.type === "discount" ? (
+                                <div className="OpenedMatrixList_ItemContainer">
+                                    <li
+                                        className="OpenedMatrixList_Item"
+                                        key={elem.id.toString()}
+                                        onClick={() =>
+                                            ActivateOpenedMatrix(
+                                                elem.name,
+                                                elem.id,
+                                                openedMatrixList.indexOf(elem)
+                                            )
+                                        }
+                                    >
+                                        <p>{elem.name}</p>
+                                    </li>
+                                    <div
+                                        className="OpenedMatrixList_Item_CloseButton"
+                                        onClick={() =>
+                                            HandleOpenedDeleteClick(elem.id)
+                                        }
+                                    >
+                                        <span>✕</span>
+                                    </div>
+                                </div>
+                            ) : (
+                                <></>
+                            )
                         )}
                     </ul>
                 </div>
@@ -110,19 +230,32 @@ function App() {
                             {activeMatrixList.map((elem) => (
                                 <li
                                     className="ActiveMatrixList_Item"
-                                    style={elem.id === activeIndex ? { "backgroundColor": "#515151" } : {}}
+                                    style={
+                                        elem.id === activeIndex
+                                            ? { backgroundColor: "#515151" }
+                                            : {}
+                                    }
                                     key={elem.id.toString()}
                                 >
-                                    <div onClick={() => HandleActiveClick(elem.id)}>
+                                    <div
+                                        onClick={() =>
+                                            HandleActiveClick(elem.id)
+                                        }
+                                    >
                                         <p>{elem.name}</p>
                                     </div>
-                                    <div onClick={() => HandleActiveDeleteClick(elem.id)}>
+                                    <div
+                                        onClick={() =>
+                                            HandleActiveDeleteClick(elem.id)
+                                        }
+                                    >
                                         <span>✕</span>
                                     </div>
                                 </li>
                             ))}
                         </ul>
                     </header>
+                    <WorkZone />
                 </div>
             </main>
         </div>

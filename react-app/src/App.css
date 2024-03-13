@@ -17,9 +17,17 @@
 
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
 
     padding-left: 16px;
+    padding-right: 100px;
+}
+
+.App-header-LogoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
 }
 
 .App-title {
@@ -36,6 +44,14 @@
 
     width: 100%;
     height: calc(100vh - 70px);
+}
+
+/* ToolsContainer*/
+
+.ToolsContainer {
+    display: flex;
+
+    gap: 20px;
 }
 
 /* OpenedMatrix */
@@ -72,6 +88,20 @@
     padding: 0;
 }
 
+.OpenedMatrixList_ItemContainer {
+    display: flex;
+}
+
+.OpenedMatrixList_Item_CloseButton {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+}
+
 .OpenedMatrixList_Item {
     width: 100%;
     height: 56px;
@@ -87,25 +117,15 @@
     cursor: pointer;
 }
 
-.OpenedMatrixList_Item:hover {
+.OpenedMatrixList_ItemContainer:hover {
     background-color: white;
 }
 
 /* ActiveMatrix */
 
-.WorkZone {
-    display: flex;
-    flex-direction: column;
-}
-
-.WorkZoneHeader {
-    width: 100%;
-    height: 34px;
-}
-
 .ActiveMatrixList {
     width: 100%;
-    height: 34px;
+    min-height: 34px;
 
     list-style: none;
     padding: 0;
@@ -156,6 +176,17 @@ span {
     cursor: default;
 }
 
+/* WorkZone */
+
+.WorkZone {
+    display: flex;
+    flex-direction: column;
+}
+
+.WorkZoneHeader {
+    width: 100%;
+    min-height: 34px;
+}
 
 /* Fonts */
 

@@ -1,43 +1,110 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
+
+	"ab_of_avito/modules"
+	"ab_of_avito/tosting"
 )
 
 const PORT string = ":6969"
 
 func NewRoute(pattern string, handler func(http.ResponseWriter, *http.Request)) {
-	log.Println("Adding new route " + pattern)
-
+	// Create new route and log it's name and url
+	log.Println("Adding new route at: http://localhost" + PORT + pattern)
 	http.HandleFunc(pattern, handler)
 }
 
+func HeaderSetter(w http.ResponseWriter) {
+	// Set some needed headers. It doesn't work without them. Atleast for me (Boiiterra)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+}
+
 func Router() {
-	NewRoute("/", Welcome) // Inacceseble from Frontend
+	// Testing routes. If you connect to server directly
+	NewRoute("/hello", tosting.Welcome) // Inacceseble from Frontend side
+	NewRoute("/json", tosting.Testing)  // Testing JSON communication
+
+	NewRoute("/api/getMatrixNOOO", getMatrixNOOO)
+
+	NewRoute("/api/getCategories", getCats)
 }
 
-func illegal(w http.ResponseWriter) {
-	http.Error(w, "That's illegal, Sorry can't do that.", http.StatusMethodNotAllowed)
+func getCats(w http.ResponseWriter, r *http.Request) {
+	HeaderSetter(w)
+
+	if r.Method == http.MethodGet {
+		defer r.Body.Close()
+
+		row, err := modules.Selector("data/baseline_matrix_1.db", 61, 4108)
+		if err != nil {
+			http.Error(w, "Invalid data.", http.StatusBadRequest)
+		}
+
+		log.Println("Row")
+		log.Println(row)
+
+		rb, err := json.Marshal("NOT IMPLEMENTED")
+		if err != nil {
+			http.Error(w, "JSON creating went wrong.", http.StatusInternalServerError)
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(rb)
+	}
 }
 
-func Welcome(w http.ResponseWriter, _ *http.Request) {
-	// For communication
+func getMatrixNOOO(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 
-	fmt.Fprintf(w, "Hello there sysadmin.")
+	if r.Method == http.MethodPost {
+		defer r.Body.Close()
+		var data modules.Row
+
+		err := json.NewDecoder(r.Body).Decode(&data)
+		if err != nil {
+			log.Fatal(err)
+			http.Error(w, "Weird JSON recieved", http.StatusBadRequest)
+		}
+		log.Println(data)
+
+		var tmp struct {
+			Status string `json:"status"`
+		}
+		tmp.Status = "positive"
+
+		rb, err := json.Marshal(tmp)
+		if err != nil {
+			log.Fatal("Failing to make response.")
+			http.Error(w, "Something went wrong packing JSON.", http.StatusInternalServerError)
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(rb)
+	}
 }
 
-func main() {
+func mainy() {
 	Router()
 
 	log.Println("Starting server...")
+	log.Println(fmt.Sprintf("Server is using port %s.", PORT))
 	err := http.ListenAndServe(PORT, nil)
 	if err != nil {
 		log.Fatal("Server is unable to start.")
 		log.Fatal(err.Error())
 	}
+}
+
+func main() {
+	row, err := modules.Selector("./data/baseline_matrix_1.db", 1, 1)
+	fmt.Println(err)
+	fmt.Println(row)
 }

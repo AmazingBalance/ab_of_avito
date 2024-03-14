@@ -4,7 +4,7 @@ import React, { useEffect, useState, useReducer } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import Button from "./components/button/Button";
-import WorkZone from "./components/workZone/workZone";
+import WorkZone from "./components/workzone/WorkZone";
 import Popup from "./components/popup/Popup";
 
 function App() {
@@ -120,6 +120,24 @@ function App() {
         forceUpdate();
     }
 
+    function openMatrix(g) {
+        let f = true;
+        for (let i = 0; i < openedMatrixList.length; i++) {
+            if (openedMatrixList[i].id === g.id) {
+                f = false;
+                break;
+            }
+        }
+        if (f) {
+            openedMatrixList.push({ name: g.name, id: g.id, active: false, type: g.name.substring(0, 8) })
+        }
+    }
+
+    function createMatrix(g) {
+        //Creating Matrix in storage...
+        openMatrix(g)
+    }
+
     //Popup
 
     const [popupOpen, setPopupOpen] = useState(-1);
@@ -131,11 +149,11 @@ function App() {
 
     return (
         <div className="App">
-            {popupOpen.type === -1 ? (
+            {popupOpen === -1 ? (
                 <></>
             ) : (
-                <Popup popup={popupOpen} closePopup={closePopup} />
-            )}
+                    <Popup popup={popupOpen} closePopup={closePopup} openMatrix={openMatrix} createMatrix={createMatrix} />
+                )}
             <header className="App-header">
                 <div className="App-header-LogoContainer">
                     <img
@@ -163,14 +181,20 @@ function App() {
                         color="white"
                         borderColor=""
                         backgroundColor="#00AAFF"
-                        onc={() => {}}
+                        onc={() => {
+                            setPopupOpen(1);
+                            forceUpdate();
+                        }}
                     />
                     <Button
                         text="Storage"
                         color="white"
                         borderColor=""
                         backgroundColor="#965EEB"
-                        onc={() => {}}
+                        onc={() => {
+                            setPopupOpen(2);
+                            forceUpdate();
+                        }}
                     />
                 </div>
             </header>
@@ -204,8 +228,8 @@ function App() {
                                     </div>
                                 </div>
                             ) : (
-                                <></>
-                            )
+                                    <></>
+                                )
                         )}
                     </ul>
 
@@ -237,8 +261,8 @@ function App() {
                                     </div>
                                 </div>
                             ) : (
-                                <></>
-                            )
+                                    <></>
+                                )
                         )}
                     </ul>
                 </div>

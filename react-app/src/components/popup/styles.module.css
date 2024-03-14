@@ -68,3 +68,12 @@
     font-size: 20px;
     text-align: center;
 }
+
+.Checkbox {
+    display: flex;
+}
+
+.Checkbox input {
+    width: 20px;
+    height: 20px;
+}

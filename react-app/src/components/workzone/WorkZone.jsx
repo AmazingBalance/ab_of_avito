@@ -248,27 +248,28 @@ function WorkZone() {
                     {activeLocationID === -1 ? (
                         <></>
                     ) : (
-                        <h2 className={styles.ActiveTitle}>
-                            {activeLocationID} -{" "}
-                            {
-                                SearchBranch([treeLocations], activeLocationID)
-                                    .name
-                            }
-                        </h2>
-                    )}
+                            <h2 className={styles.ActiveTitle}>
+                                {activeLocationID} -{" "}
+                                {
+                                    SearchBranch([treeLocations], activeLocationID)
+                                        .name
+                                }
+                            </h2>
+                        )}
                     {activeCategoryID === -1 ? (
                         <></>
                     ) : (
-                        <h2 className={styles.ActiveTitle}>
-                            {activeCategoryID} -{" "}
-                            {
-                                SearchBranch([treeCategories], activeCategoryID)
-                                    .name
-                            }
-                        </h2>
-                    )}
+                            <h2 className={styles.ActiveTitle}>
+                                {activeCategoryID} -{" "}
+                                {
+                                    SearchBranch([treeCategories], activeCategoryID)
+                                        .name
+                                }
+                            </h2>
+                        )}
                 </div>
                 <input
+                    id="priceInput"
                     type="text"
                     disabled={
                         activeCategoryID === -1 || activeLocationID === -1
@@ -276,9 +277,9 @@ function WorkZone() {
                     placeholder={
                         CheckPrice(activeCategoryID, activeLocationID) !== -1
                             ? CheckPrice(
-                                  activeCategoryID,
-                                  activeLocationID
-                              ).toString()
+                                activeCategoryID,
+                                activeLocationID
+                            ).toString()
                             : "Цена"
                     }
                 ></input>
@@ -286,6 +287,12 @@ function WorkZone() {
                     text="Изменить"
                     color="white"
                     backgroundColor="#5F5F5F"
+                    onc={
+                        () => {
+                            let pi = document.getElementById("priceInput");
+                            pi.value = ""
+                        }
+                    }
                 />
             </div>
         </div>

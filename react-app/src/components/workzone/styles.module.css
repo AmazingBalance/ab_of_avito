@@ -1,4 +1,8 @@
 .WorkZoneMain {
+    display: flex;
+    gap: 160px;
+}
+.WorkZoneTree {
     padding-left: 33px;
     padding-top: 27px;
 }
@@ -11,6 +15,8 @@
     padding: 3px;
 
     width: 446px;
+
+    margin-bottom: 14px;
 }
 
 .SearchPair input {
@@ -44,6 +50,56 @@
     color: white;
 
     cursor: pointer;
+}
+
+.WorkZoneMain_FilterGroup {
+    display: flex;
+    gap: 16px;
+
+    margin-bottom: 28px;
+}
+
+.Tree {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.TreeTitle {
+    font-size: 20px;
+}
+
+/* Info */
+
+.InfoBlock {
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+
+    padding-top: 35px;
+}
+
+.ActiveTitles {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ActiveTitle {
+    font-size: 18px;
+    margin: 0;
+}
+
+.InfoBlock input {
+    width: 174px;
+    height: 34px;
+    border-radius: 6px;
+    border: 1px solid #04e061;
+    outline: none;
+
+    padding: 0 11px;
 }
 
 /* Fonts */

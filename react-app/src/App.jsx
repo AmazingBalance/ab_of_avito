@@ -4,7 +4,8 @@ import React, { useEffect, useState, useReducer } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import Button from "./components/button/Button";
-import WorkZone from "./components/workzone/WorkZone";
+import WorkZone from "./components/workZone/workZone";
+import Popup from "./components/popup/Popup";
 
 function App() {
     const [, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -119,8 +120,22 @@ function App() {
         forceUpdate();
     }
 
+    //Popup
+
+    const [popupOpen, setPopupOpen] = useState(-1);
+
+    function closePopup() {
+        setPopupOpen(-1);
+        forceUpdate();
+    }
+
     return (
         <div className="App">
+            {popupOpen.type === -1 ? (
+                <></>
+            ) : (
+                <Popup popup={popupOpen} closePopup={closePopup} />
+            )}
             <header className="App-header">
                 <div className="App-header-LogoContainer">
                     <img
@@ -138,7 +153,10 @@ function App() {
                         color="white"
                         borderColor=""
                         backgroundColor="#00AAFF"
-                        onc={() => {}}
+                        onc={() => {
+                            setPopupOpen(0);
+                            forceUpdate();
+                        }}
                     />
                     <Button
                         text="Создать"

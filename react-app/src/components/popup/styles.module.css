@@ -1,0 +1,70 @@
+.PopupContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(100, 100, 100, 0.3);
+    z-index: 100;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Popup {
+    width: 35%;
+    height: calc(100vh - 200px);
+
+    padding-left: 20px;
+
+    border-radius: 6px;
+
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    position: relative;
+}
+
+.ClosePopupButton {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+
+    padding: 10px;
+    cursor: pointer;
+}
+
+.Popup label {
+    font-size: 16px;
+    color: #515151;
+}
+
+.Popup input {
+    height: 34px;
+    width: 174px;
+    outline: none;
+    border: 1px solid #515151;
+    border-radius: 6px;
+}
+
+.Popup select {
+    height: 34px;
+    width: 174px;
+    outline: none;
+    border: 1px solid #515151;
+    border-radius: 6px;
+}
+
+.PopupTitle {
+    font-size: 20px;
+    text-align: center;
+}
